@@ -1,0 +1,21 @@
+v2.0 raw
+0 0 0 0 0 1 0 0
+1 8000 ffff 7fff 0 0 0 0
+1 8001 ffff 7ffe 0 0 0 0
+1 f800 ffff 7ff 0 0 0 0
+1 fc00 ffff 3ff 0 0 0 0
+1 ff80 ffff 7f 0 0 0 0
+1 fff0 ffff f 0 0 0 0
+1 fff8 ffff 7 0 0 0 0
+1 ffff ffff 0 0 0 0 0
+1 0 ffff ffff 0 0 0 0
+1 1 ffff fffe 0 0 0 0
+1 7 ffff fff8 0 0 0 0
+1 8 ffff fff7 0 0 0 0
+1 f ffff fff0 0 0 0 0
+1 10 ffff ffef 0 0 0 0
+1 7f ffff ff80 0 0 0 0
+1 80 ffff ff7f 0 0 0 0
+1 400 ffff fbff 0 0 0 0
+1 7ff ffff f800 0 0 0 0
+1 7fff ffff 8000 0 0 0 0

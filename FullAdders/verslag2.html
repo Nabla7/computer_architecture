@@ -1,0 +1,218 @@
+<html>
+
+<head>
+<title>Verslag</title>
+<!-- Het "u" element (underline) is geherdefinieerd voor overline -->
+<style type="text/css">u {text-decoration: overline;}</style>
+
+</head>
+
+<body>
+
+<h1>Verslag 2</h1>
+<p><b>Titel:</b> <i>Adders</i></p>
+<p>Dit verslag werd opgesteld door: <br />
+<ul>
+<li><b>Naam:</b> <i>Pim Van den Bosch</i><br />
+<b>Studentennummer:</b> <i>20223753</i><br />
+<b>Email adres:</b> <i>pim.vandenbosch@student.uantwerpen.be</i>
+</li>
+<li><b>Naam:</b> <i>Manu Hoang</i><br />
+<b>Studentennummer:</b> <i>20224053</i><br />
+<b>Email adres:</b> <i>manu.hoang@student.uantwerpen.be</i>
+</li>
+</ul>
+<b>Aantal man-uren besteed:</b> <i>8 uur</i><br />
+<b>Moeilijkheidsgraad:</b> <i>8</i> /10 (1 is heel makkelijk, 10 is heel moeilijk)</p>
+
+<h2>Inhoud van de oplossing</h2>
+<p>De oplossing bestaat uit de volgende bestanden (geef alle bestanden op):</p>
+<ul>
+<li><a href="project2.circ">project2.circ</a>: logisim file, bevat alle oplossingen</li>
+</ul>
+
+<h2>Verslag</h2>
+
+<p><br></p>
+
+<h3>Question 1</h3>
+<p>In the circuit below you will find the 1-bit adder that we have constructed (including carry in and carry out).<br> 
+</p>
+<img src="1 bit adder.png" width="500" height="250">
+<p>The goal of this 1-bit adder is calculating the sum and Carry Out of inputs A and B whilst keeping the Carry In in mind.<br> 
+    Calculating the sum is quite straight forward; the Sum will be 1 whenever there is no Carry In and either A XOR B is 1.
+    The Sum will also be 1 whenever there is a Carry In and neither A NOR B or A AND B.
+    <br>
+    The calculation of the Carry Out is fairly simple aswell; Carry Out will be 1 whenever there is an input A AND B (and no Carry In) or a Carry In and either A XOR B.
+    <br>
+    In the table below you will find the truth table for the 1 bit adder.
+</p>
+<img src="truth table 1 bit adder.png" width="666" height="222">
+
+<p><br></p>
+
+<h3>Question 2</h3>
+<p>(2b) The 16 bit adder with two 16 bit inputs in illustrated below.
+</p>
+<img src="16 bit ripple adder.png" width="750" height="700">
+<p>
+    (2c) What is the number of gates you used to build your 16-bit ripple carry adder?
+    <br>
+    81.
+    <br> One adder consists of five gates, so 16 gates will equal 80 gates. We will also use a XOR gate for overflow detection (80 + 1)
+</p>
+<p><br></p>
+<p>
+    (2d) What is the latency (number of AND/OR ports traversed) when calculating the sum
+using a 16-bit ripple carry adder?
+</p>
+<img src="number of ports traversed 1 bit adder.png" width="500" height="250">
+<p>
+    The longest path a circuit can take through our 1 bit adder will count 3 total gates traversed.
+    <br>
+    We know when calculating the Sum we have to traverse through 16 total one-bit adders, so the total latency will amount to 48 total AND/OR gates.
+</p>
+<p><br></p>
+<p>
+    (2e) Think about a way how overflow can be determined from carry outs.
+</p>
+<p>
+    Overflow can happen in two scenarios: either we're adding 2 positive numbers and are ending up with a negative number, or we're adding 2 negative numbers and are ending up with a positive number.
+    <br> Using two's compliment we can easily determine whether an input / output is positive or negative by looking at the left most bit. If the bit is 1: it's a negative number. If the bit is 0: it's a positive number.
+    <br> Given this information we can check whether there is overflow by simply looking at the inputs and output. If we're adding two positive numbers together and have a negative output, there is overflow and vice versa.
+    <br> In the table below we have marked both cases in red. Since it's the only cases where the Carry In and Carry Out are not equal, we can make use of a XOR gate to check for overflow.
+</p>
+<img src="truth table overflow.png" width="666" height="222">
+<img src="overflow XOR gate.png" width="390" height="222">
+
+<p><br></p>
+
+<h3>Question 3</h3>
+<p>Build a circuit of a 16-bit two’s complement carry lookahead adder using four 4-bit adder
+    blocks.
+</p>
+
+<p>
+    We will refer to <a href="project3.circ">project3.circ</a> as it contains a cleaner version of the carry logic.
+</p>
+
+<p>
+    (a) Build a circuit for a 4-bit adder block. This block has input carryIn, a0, a1, a2, a3,
+b0, b1, b2, b3 and outputs s0, s1, s2, s3, P0, G0. Note that there is no output for
+carryOut, as a carry lookahead adder doesn’t use ci−1.
+</p>
+
+<p>
+    First we extend our 1-bit adder by adding a Propagate and Generate output, denoting whether a 1-bit adder
+    is passing a carry along from the previous input, is generating a carry itself, is doing both, or doing neither.
+</p>
+
+<img src="1_bit_full_adder.jpg" width="500" height="300">
+
+<p><br></p>
+
+<p>
+In the following image you can see the carry logic, this unit is able to deal with
+the 4 propagates and  4 generates from lower levels and transform them into a super propagate
+and a super carry that can then be used at a higher level of abstraction. The carry logic was designed
+in such a manner that it is easily composable and it allows the user to quickly go from 4-bit to 64-bit if 
+that was required.
+</p>
+
+<img src="carry_logic.jpg" width="500" height="300">
+
+<p><br></p>
+
+<p>
+    Here you can see the 4-bit adder. (with extra logic functionality which we will ignore for now)
+    It calculates the carry_in for each of the 1-bit full adders (square boxes on the left) in parallel by using the carry logic unit (slim rectangle on the right)
+</p>
+
+<img src="4_bit_adder.png" width="300" height="300">
+
+<p><br></p>
+
+<p>
+    (b) Build a circuit of a 16-bit two’s complement carry lookahead adder by creating a
+“carry lookahead unit” that uses four of your own 4-bit adder blocks.
+</p>
+
+<p>
+    Thanks to the composablity of the carry logic, we simply make it so that the 4-bit carry lookahead adders have
+    the same shape as the 1-bit full adders, connect the wires in the same fashion, and we get the 16 bit version!
+</p>
+
+<img src="16_bit adder.png" width="400" height="300">
+
+<p><br></p>
+
+<p>
+    (c) What is the number of gates you used to build your 16-bit carry lookahead adder?
+</p>
+
+<p>
+    There are 17 gates in our 1-bit full adder and 19 gates in the carry logic.
+</p>
+
+<p>
+    So the number of gates in a single 4-bit carrylookahead adder is 4*17 + 19 = 87
+</p>
+
+<p>
+    The number of gates in the 16-bit adder  then is 4*87 + 19 = 367
+</p>
+
+<p><br></p>
+
+<p>
+    (d) What is the latency (number of AND/OR ports traversed) when calculating the sum
+using a 16-bit carry lookahead adder?
+</p>
+
+<p>
+    The number of gates traversed for ripple carry is denoted by the red path in the image below. 
+    Since this path needs to be traversed 16 times the number of gate delays is 16*2 = 32.
+</p>
+
+<p>
+    Compare this to the number of gate delays of the carrylookahead adder, denoted by the pink path. 1 gate needs to be 
+    traversed in order to deliver the initial propagate and generate values, and subsequently it needs to pass
+    through the carry logic in two layers before finally arriving at the sum so 1 + (2*2) + 2
+     = 7 gate delays
+</p>
+
+<img src="gate_delays.jpg" width="400" height="300">
+
+<p><br></p>
+
+<p>
+    (e) On this 16-bit adder circuit, create an extra output bit, denoting overflow
+</p>
+
+<p>
+    Overflow can be seen in the previous pictures. It works in the same fashion as the 
+    ripple carry adder by comparing the last 2 carry outputs with an XOR gate.
+</p>
+
+<h3>Question 4</h3>
+<p>
+    Verify that your 16-bit two’s complement carry lookahead adder is correct.
+    Do this by connecting two 16-bit inputs to both the carry lookahead 16-bit adder and
+    the ripple carry 16-bit adders, and comparing the outputs. Compare the carry lookahead 16-bit adder and the ripple carry 16-bit adders by
+    counting the latency of both adders.
+</p>
+
+<p>
+    In the image below you can see the 16-bit adders hooked up to the same inputs. As expected they give the same output.
+</p>
+
+<img src="test.png" width="400" height="300">
+
+<p><br></p>
+
+<p> Finally, as was mentioned in the previous question, the gate delay for the ripple carry adder is 32 whilst for the carrylookahead adder it is only 5.</p>
+
+
+</body>
+
+</html>

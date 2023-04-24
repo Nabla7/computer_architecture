@@ -1,0 +1,236 @@
+LOADMEM # test 1
+zero r1
+beq r0 r1 4 # should branch
+CHECKMEM
+r0: 0
+r1: 0
+r2: 0
+r3: 0
+r4: 0
+r5: 0
+r6: 0
+r7: 0
+pc: 6
+END
+
+LOADMEM # test 2
+zero r1
+ori r1 1
+beq r0 r1 4 # should not branch
+CHECKMEM
+r0: 0
+r1: 1
+r2: 0
+r3: 0
+r4: 0
+r5: 0
+r6: 0
+r7: 0
+pc: 3
+END
+
+LOADMEM # test 3
+zero r1
+blt r0 r1 4 # should not branch
+CHECKMEM
+r0: 0
+r1: 0
+r2: 0
+r3: 0
+r4: 0
+r5: 0
+r6: 0
+r7: 0
+pc: 2
+END
+
+LOADMEM # test 4
+zero r1
+ori r1 1
+blt r0 r1 4 # should branch
+CHECKMEM
+r0: 0
+r1: 1
+r2: 0
+r3: 0
+r4: 0
+r5: 0
+r6: 0
+r7: 0
+pc: 7
+END
+
+LOADMEM # test 5
+zero r1
+ori r1 20
+jr r1 5
+CHECKMEM
+r0: 0
+r1: 20
+r2: 0
+r3: 0
+r4: 0
+r5: 0
+r6: 0
+r7: 0
+pc: 25
+END
+
+LOADMEM # test 6
+zero r1
+ori r1 20
+jr r1 -5
+CHECKMEM
+r0: 0
+r1: 20
+r2: 0
+r3: 0
+r4: 0
+r5: 0
+r6: 0
+r7: 0
+pc: 15
+END
+
+LOADMEM # test 7
+zero r1
+j 25
+CHECKMEM
+r0: 0
+r1: 0
+r2: 0
+r3: 0
+r4: 0
+r5: 0
+r6: 0
+r7: 0
+pc: 25
+END
+
+LOADMEM # test 8
+zero r1
+jal 25
+CHECKMEM
+r0: 0
+r1: 0
+r2: 0
+r3: 0
+r4: 0
+r5: 0
+r6: 0
+r7: 2
+pc: 25
+END
+
+LOADMEM # test 9
+zero r1
+ori r1 8
+sw r1 r0 6
+lw r2 r1 -2
+ori r2 1
+CHECKMEM
+r0: 0
+r1: 8
+r2: 9
+r3: 0
+r4: 0
+r5: 0
+r6: 0
+r7: 0
+END
+
+LOADMEM # test 10
+zero r1       # 0
+ori r2 1      # 1
+jal 6         # 2
+ori r3 2      # 3
+beq r2 r3 1  # 4
+j 8           # 5
+add r2 r2 r2  # 6
+jr r7 0       # 7
+jal 25        # 8
+CHECKMEM
+pc: 25
+r0: 0
+r1: 0
+r2: 4
+r3: 2
+r4: 0
+r5: 0
+r6: 0
+r7: 9
+END
+
+LOADMEM # test 11
+zero r1
+ori r1 1
+ori r2 4
+dec r2 r2
+blt r1 r2 -2
+j 25
+CHECKMEM
+pc: 25
+r0: 0
+r1: 1
+r2: 1
+r3: 0
+r4: 0
+r5: 0
+r6: 0
+r7: 0
+END
+
+LOADMEM # test 12
+zero r1        # 0
+ori r1 16      # 1
+cp r3 r1       # 2
+jal 5          # 3 jump to 4, skip one instruction
+cp r2 r1       # 4 should not be executed
+ori r2 1       # 5
+jr r2 7        # 6 jump to 1+7, skip one instruction
+add r2 r1 r2   # 7 should not be executed
+ori r4 4       # 8
+sub r4 r4 r2   # 9 r4 -= 1
+blt r0 r4 -2   # 10 branch to 9 as long as r4!=0
+sw r3 r1 5     # 11 store 16 in DATA[16+5]
+lw r5 r1 5     # 12 load DATA[16+5] (16) in r5
+lw r3 r1 4     # 13 load DATA[16+4] (0) in r3
+j 20           # 14
+CHECKMEM
+r0: 0
+r1: 16
+r2: 1
+r3: 0
+r4: 0
+r5: 16
+r6: 0
+r7: 4
+pc: 20
+END
+
+LOADMEM # test 13
+zero r1
+ori r1 16    # use r1 as array pointer (AP)
+ori r2 1     # use r2 as data
+ori r3 6     # use r3 as boundary condition (6)
+sw r2 r1 0   # store data in MEM[AP]
+inc r1 r1    # AP++
+inc r2 r2    # data++
+blt r2 r3 -4 # repeat while data < boundary: MEM[AP]= data, AP++, data++
+zero r1      # reset AP
+ori r1 16
+lw r6 r1 0   # Load array [1-5] back to regs in reverse order
+lw r5 r1 1
+lw r4 r1 2
+lw r3 r1 3
+lw r2 r1 4
+CHECKMEM
+r0: 0
+r1: 16
+r2: 5
+r3: 4
+r4: 3
+r5: 2
+r6: 1
+r7: 0
+END

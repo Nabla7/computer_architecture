@@ -1,0 +1,146 @@
+<html>
+
+<head>
+<title>Verslag</title>
+<!-- Het "u" element (underline) is geherdefinieerd voor overline -->
+<style type="text/css">u {text-decoration: overline;}</style>
+
+</head>
+
+<body>
+
+<h1>Verslag 3</h1>
+<p><b>Titel:</b> <i>ALU</i></p>
+<p>Dit verslag werd opgesteld door: <br />
+<ul>
+<li><b>Naam:</b> <i>Pim Van den Bosch</i><br />
+<b>Studentennummer:</b> <i>20223753</i><br />
+<b>Email adres:</b> <i>pim.vandenbosch@student.uantwerpen.be</i>
+</li>
+<li><b>Naam:</b> <i>Manu Hoang</i><br />
+<b>Studentennummer:</b> <i>20224053</i><br />
+<b>Email adres:</b> <i>manu.hoang@student.uantwerpen.be</i>
+</li>
+</ul>
+<b>Aantal man-uren besteed:</b> <i>8 uur</i><br />
+<b>Moeilijkheidsgraad:</b> <i>8</i> /10 (1 is heel makkelijk, 10 is heel moeilijk)</p>
+
+<h2>Inhoud van de oplossing</h2>
+<p>De oplossing bestaat uit de volgende bestanden (geef alle bestanden op):</p>
+<ul>
+<li><a href="ALU_Group01.circ">ALU_Group01.circ</a>: logisim file, bevat alle oplossingen</li>
+</ul>
+
+<h2>Verslag</h2>
+
+<h3>NOTE</h3>
+
+<p> In the following picture you can see the ALU Operation logic,
+    it decodes the ALU signals into a number of outputs that configure the ALU and its functions.
+    In this way we can easily decide if we want to enable or disable things like overflow, inversions of A or B, 
+    whether we wish to make use of other components like logical and arithmetic shifts etc.
+</p>
+
+<img src="alu_operation_logic.png" width="500" height="350">
+
+<p><br></p>
+
+<h3>Generate 0</h3>
+
+<p> 
+    The multiplexor allows us to simply output 0 within our 1-bit ALU.
+</p>
+
+<img src="zero.png" width="500" height="400">
+
+<h3>NOT</h3>
+
+<p>
+    The multiplexor allows us to output the inverted value as can be seen in the previous picture. We simply bypass all the arithmetic and logic and invert.
+</p>
+
+<h3>AND</h3>
+
+<p>
+    Again straightforward, using an AND gate and using the multiplexor to output.
+</p>
+
+<h3>OR</h3>
+
+<p>
+    Again straightforward, using an OR gate and using the multiplexor to output.
+</p>
+
+
+<h3>ADD</h3>
+
+<p>
+    Again straightforward, using  and using the multiplexor to output the result from the 1-bit adder, which is part of the carry lookahead adder which outputs the desired result.
+</p>
+
+<img src="add.png" width="500" height="400">
+
+<h3>SUB</h3>
+
+<p>
+    Exactly the same as add, but if you have a look at the wiring within the ALU Operation Logic unit, you will find that B gets inverted in order to obtain subtraction.
+</p>
+
+<h3>LESS THAN</h3>
+
+<p>
+    If you take a look at the 1-bit ALU, you will notice the SET and LESS pins. By inverting B we subtract it A from B. By connecting the SET pin from the least significant bit to the
+    LESS pin from the most significant bit, we get 0000 0000 0000 0001 when A indeed less than B 
+</p>
+
+<h3>GREATER THAN</h3>
+
+<p>
+    Exactly the same reasoning as greater than, but we invert A instead.
+</p>
+
+<h3>EQUALS</h3>
+
+<p>
+    By connecting the output of A-B to the neq/eq component as seen below, we check if all bits are 0 after the subtraction.
+    If they are, then A and B were equal.  
+</p>
+
+<h3>NOT EQUALS</h3>
+
+<p>
+    Idem as the previous one, but using the multiplexor to invert the answer.
+</p>
+
+<img src="eqneq.png" width="500" height="400">
+
+<h3>NUMERIC INVERSE</h3>
+
+<p>
+    We simply set B to 0 and invert A using a not gate.
+</p>
+
+<img src="num_inv.png" width="500" height="400">
+
+<h3>LOGICAL AND ARITHMETIC SHIFTS</h3>
+
+<p> For this we make use of the shift component, again by using the ALU Operation logic we can choose between logical, arithmetic, left and right.
+    The component for the logical shifts should be self explanatory. For the arithmetic shifts we're keeping track of overflow for SLA and make sure to copy 1 for SRA if LSB is 1.
+
+</p>
+
+<img src="shifts.png" width="500" height="400">
+
+
+<h3>NOOP</h3>
+
+<p>
+    As can be seen in the picture below, the multiplexor in the 1 bit ALU simply outputs the value of A, leaving everyhting unchanged.
+</p>
+
+<img src="nooop.png" width="500" height="400">
+
+
+</body>
+
+</html>

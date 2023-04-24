@@ -1,0 +1,47 @@
+LOADMEM
+
+addi r5 255
+addi r6 255
+
+subi r4 1
+addi r5 0 # i counter (outer loop)
+addi r6 1 # j counter (inner loop)
+
+lw r1 r5 0
+lw r2 r6 0
+beq r1 r2 12   # Branch if duplicate
+beq r2 r4 5   # End inner loop
+beq r1 r4 31    # End outer loop
+
+
+j 55 #
+
+addi r5 1 
+zero r6
+j 55
+
+
+
+addi r3 1 # store 1 in r3 if there is a duplicate
+j 100 # end program
+
+
+
+
+
+
+
+
+
+
+
+
+
+1
+2
+3
+4
+5
+6
+7
+8
